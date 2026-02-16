@@ -1,8 +1,8 @@
 # Sonar-Scan
 
-Website for Sonar-Scan - zero-configuration SonarQube code vulnerability scanner.
+Website for Claude Usage
 
-**[sonar-scan.elevatech.xyz](https://sonar-scan.elevatech.xyz)**
+**[claude-usage.elevatech.xyz](https://claude-usage.elevatech.xyz)**
 
 Built with [Astro](https://astro.build).
 
