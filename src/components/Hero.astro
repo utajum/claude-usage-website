@@ -9,12 +9,12 @@ import screenshotWin from '../assets/images/screenshot-win.png';
   <div class="container">
     <div class="hero-content">
 
-      <!-- Chip Icon — pixel-accurate recreation of RenderChipImage() from internal/icon/render.go
+      <!-- Chip Icon - pixel-accurate recreation of RenderChipImage() from internal/icon/render.go
            22x22 grid. Body: #B400FF from (2,2)-(19,19). Pins: #00FFFF 2x2 blocks every 3px from 5.
            Text: "72" using the 7x9 digitPatterns font, white, centered. -->
       <div class="chip-container">
         <div class="chip-glow"></div>
-        <svg class="chip-icon" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" aria-label="claude-usage systray icon showing 72%">
+        <svg class="chip-icon" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" aria-label="claude-usage systray icon showing 67%">
           <defs>
             <filter id="chipGlow" x="-80%" y="-80%" width="260%" height="260%">
               <feGaussianBlur stdDeviation="1.2" result="blur" />
@@ -25,7 +25,7 @@ import screenshotWin from '../assets/images/screenshot-win.png';
             </filter>
           </defs>
 
-          <!-- Chip body — purple rectangle (2,2) to (19,19) with corner cuts -->
+          <!-- Chip body - purple rectangle (2,2) to (19,19) with corner cuts -->
           <rect x="2" y="2" width="18" height="18" fill="#B400FF" />
           <!-- Corner cuts (transparent pixels at the 4 corners of the body) -->
           <rect x="2" y="2" width="1" height="1" fill="#141218" />
@@ -33,7 +33,7 @@ import screenshotWin from '../assets/images/screenshot-win.png';
           <rect x="2" y="19" width="1" height="1" fill="#141218" />
           <rect x="19" y="19" width="1" height="1" fill="#141218" />
 
-          <!-- Cyan pins — top edge (y=0..1, 2x2 blocks at x=5,8,11,14,17) -->
+          <!-- Cyan pins - top edge (y=0..1, 2x2 blocks at x=5,8,11,14,17) -->
           <rect x="5" y="0" width="2" height="2" fill="#00FFFF" />
           <rect x="8" y="0" width="2" height="2" fill="#00FFFF" />
           <rect x="11" y="0" width="2" height="2" fill="#00FFFF" />
@@ -54,43 +54,110 @@ import screenshotWin from '../assets/images/screenshot-win.png';
           <rect x="20" y="11" width="2" height="2" fill="#00FFFF" />
           <rect x="20" y="14" width="2" height="2" fill="#00FFFF" />
 
-          <!-- "72" text — from digitPatterns in render.go, 7x9 font, charWidth=8
-               "7" pattern at startX=3, startY=2  (centered: cx=11, cy=11, totalWidth=15, startX=11-7=4, startY=11-4=7... 
-               Actually: text "72", len=2, totalWidth=2*8-1=15, startX=11-15/2=11-7=4, startY=11-9/2=11-4=7)
-               Wait — for the 22px icon the text is centered at (11,11).
-               Let me recompute: drawText(img, "72", 11, 11, white)
-               totalWidth = 2*8-1 = 15, startX = 11-15/2 = 11-7 = 4, startY = 11-9/2 = 11-4 = 7
-               "7" drawn at (4,7), "2" drawn at (12,7)
-          -->
-          <!-- Digit "7" at (4,7) — pattern from digitPatterns['7'] -->
-          <!-- Row 0: 1111111 --> <rect x="4" y="7" width="7" height="1" fill="white" />
-          <!-- Row 1: 1111111 --> <rect x="4" y="8" width="7" height="1" fill="white" />
-          <!-- Row 2: 0000011 --> <rect x="9" y="9" width="2" height="1" fill="white" />
-          <!-- Row 3: 0000110 --> <rect x="8" y="10" width="2" height="1" fill="white" />
-          <!-- Row 4: 0001100 --> <rect x="7" y="11" width="2" height="1" fill="white" />
-          <!-- Row 5: 0011000 --> <rect x="6" y="12" width="2" height="1" fill="white" />
-          <!-- Row 6: 0011000 --> <rect x="6" y="13" width="2" height="1" fill="white" />
-          <!-- Row 7: 0011000 --> <rect x="6" y="14" width="2" height="1" fill="white" />
-          <!-- Row 8: 0011000 --> <rect x="6" y="15" width="2" height="1" fill="white" />
+          <!-- "67" - digitPatterns from render.go, 7x9 font, charWidth=8
+               Shifted 1px left from center: "6" at (3,7), "7" at (11,7) -->
+          <!-- Digit "6" at (3,7) -->
+          <!-- Row 0: 0111110 --> <rect x="4" y="7" width="5" height="1" fill="#d0c8e0" />
+          <!-- Row 1: 1111111 --> <rect x="3" y="8" width="7" height="1" fill="#d0c8e0" />
+          <!-- Row 2: 1100000 --> <rect x="3" y="9" width="2" height="1" fill="#d0c8e0" />
+          <!-- Row 3: 1111110 --> <rect x="3" y="10" width="6" height="1" fill="#d0c8e0" />
+          <!-- Row 4: 1111111 --> <rect x="3" y="11" width="7" height="1" fill="#d0c8e0" />
+          <!-- Row 5: 1100011 --> <rect x="3" y="12" width="2" height="1" fill="#d0c8e0" /><rect x="8" y="12" width="2" height="1" fill="#d0c8e0" />
+          <!-- Row 6: 1100011 --> <rect x="3" y="13" width="2" height="1" fill="#d0c8e0" /><rect x="8" y="13" width="2" height="1" fill="#d0c8e0" />
+          <!-- Row 7: 1111111 --> <rect x="3" y="14" width="7" height="1" fill="#d0c8e0" />
+          <!-- Row 8: 0111110 --> <rect x="4" y="15" width="5" height="1" fill="#d0c8e0" />
 
-          <!-- Digit "2" at (12,7) — pattern from digitPatterns['2'] -->
-          <!-- Row 0: 0111110 --> <rect x="13" y="7" width="5" height="1" fill="white" />
-          <!-- Row 1: 1111111 --> <rect x="12" y="8" width="7" height="1" fill="white" />
-          <!-- Row 2: 1100011 --> <rect x="12" y="9" width="2" height="1" fill="white" /><rect x="17" y="9" width="2" height="1" fill="white" />
-          <!-- Row 3: 0000111 --> <rect x="16" y="10" width="3" height="1" fill="white" />
-          <!-- Row 4: 0011110 --> <rect x="14" y="11" width="4" height="1" fill="white" />
-          <!-- Row 5: 0111000 --> <rect x="13" y="12" width="3" height="1" fill="white" />
-          <!-- Row 6: 1110000 --> <rect x="12" y="13" width="3" height="1" fill="white" />
-          <!-- Row 7: 1111111 --> <rect x="12" y="14" width="7" height="1" fill="white" />
-          <!-- Row 8: 1111111 --> <rect x="12" y="15" width="7" height="1" fill="white" />
+          <!-- Digit "7" at (11,7) -->
+          <!-- Row 0: 1111111 --> <rect x="11" y="7" width="7" height="1" fill="#d0c8e0" />
+          <!-- Row 1: 1111111 --> <rect x="11" y="8" width="7" height="1" fill="#d0c8e0" />
+          <!-- Row 2: 0000011 --> <rect x="16" y="9" width="2" height="1" fill="#d0c8e0" />
+          <!-- Row 3: 0000110 --> <rect x="15" y="10" width="2" height="1" fill="#d0c8e0" />
+          <!-- Row 4: 0001100 --> <rect x="14" y="11" width="2" height="1" fill="#d0c8e0" />
+          <!-- Row 5: 0011000 --> <rect x="13" y="12" width="2" height="1" fill="#d0c8e0" />
+          <!-- Row 6: 0011000 --> <rect x="13" y="13" width="2" height="1" fill="#d0c8e0" />
+          <!-- Row 7: 0011000 --> <rect x="13" y="14" width="2" height="1" fill="#d0c8e0" />
+          <!-- Row 8: 0011000 --> <rect x="13" y="15" width="2" height="1" fill="#d0c8e0" />
         </svg>
       </div>
+
+      <script>
+        const chip = document.querySelector('.chip-container') as HTMLElement;
+        if (chip) {
+          const maxDist = 250;   // radius of influence (px)
+          const maxPush = 60;    // max displacement (px)
+          const speedUp = 4;     // float animation speed multiplier on hover
+
+          let ax = 0, ay = 0;   // current animated offset
+          let tx = 0, ty = 0;   // target offset
+          let raf: number;
+          let hovering = false;
+
+          function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
+
+          function animate() {
+            // Ease toward target - snappy when fleeing, springy when returning
+            const ease = hovering ? 0.15 : 0.08;
+            ax = lerp(ax, tx, ease);
+            ay = lerp(ay, ty, ease);
+
+            // Float speed: normal 6s, on hover ~1.5s via custom property
+            const speed = hovering ? speedUp : 1;
+            chip.style.setProperty('--float-speed', `${6 / speed}s`);
+
+            chip.style.transform = `translate(${ax}px, ${ay}px)`;
+
+            if (Math.abs(ax - tx) > 0.1 || Math.abs(ay - ty) > 0.1) {
+              raf = requestAnimationFrame(animate);
+            } else {
+              ax = tx;
+              ay = ty;
+              chip.style.transform = `translate(${ax}px, ${ay}px)`;
+            }
+          }
+
+          document.addEventListener('mousemove', (e) => {
+            const rect = chip.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+
+            const dx = cx - e.clientX;
+            const dy = cy - e.clientY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < maxDist) {
+              hovering = true;
+              // Push away: direction is from cursor to chip center, strength inversely proportional to distance
+              const strength = 1 - dist / maxDist;
+              const push = strength * strength * maxPush; // quadratic falloff
+              const angle = Math.atan2(dy, dx);
+              tx = Math.cos(angle) * push;
+              ty = Math.sin(angle) * push;
+            } else {
+              hovering = false;
+              tx = 0;
+              ty = 0;
+            }
+
+            cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(animate);
+          });
+
+          // Reset when cursor leaves the viewport
+          document.addEventListener('mouseleave', () => {
+            hovering = false;
+            tx = 0;
+            ty = 0;
+            cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(animate);
+          });
+        }
+      </script>
 
       <!-- Text content -->
       <div class="hero-text">
         <h1>claude<span class="highlight">-usage</span></h1>
         <p class="tagline">System tray token monitor</p>
-        <p class="subtitle">Watch your tokens burn in real-time. Always visible, always current.</p>
+        <p class="subtitle">Watch your tokens burn in real-time. Feel your wallet weep in high definition. Because ignorance isn't bliss - it's an invoice.</p>
         
         <div class="hero-buttons">
           <a href="https://github.com/utajum/claude-usage" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
@@ -99,6 +166,14 @@ import screenshotWin from '../assets/images/screenshot-win.png';
           </a>
           <a href="#install" class="btn btn-outline">
             Install now
+          </a>
+          <a href="https://buymeacoffee.com/utajum" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 884 1279" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M791 298c-1-4-2-7-4-10-3-5-7-8-12-11-4-2-8-3-13-3H121c-5 0-9 1-13 3-5 3-9 6-12 11-2 3-3 6-4 10l-1 5-77 620c-6 49 7 98 37 137s74 63 123 67h1l6 1h459c50 0 97-22 130-60 32-38 47-87 41-136l-77-627-1-5v-2zm-72 622c3 26-4 51-21 71s-42 31-68 31H253l-4-1c-25-2-49-14-64-35s-22-46-19-71l74-594h444l57 460 18 139z"/>
+              <path d="M670 395H213l-49 393c-4 33 5 66 26 92s52 43 83 47h1l3 1h327c34 0 65-15 87-41s33-58 27-91l-48-401zm-31 48l45 372c4 22-3 45-18 61s-36 28-59 28H280l-2-1c-21-2-40-13-54-31s-20-40-17-62l42-337h2l388-30z"/>
+              <path d="M286 225c-2-2-3-6-3-9 0-4 1-7 3-9l48-75c5-7 5-16 2-24s-11-14-19-16l-7-1c-6 0-12 2-16 6l-80 124c-3 4-4 8-4 12 0 5 2 9 5 13 3 3 7 5 12 6h13c6 0 12-2 16-6l26-17 4-4zm152 0c-2-2-3-6-3-9 0-4 1-7 3-9l48-75c5-7 5-16 2-24s-11-14-19-16l-7-1c-6 0-12 2-16 6l-80 124c-3 4-4 8-4 12 0 5 2 9 5 13 3 3 7 5 12 6h13c6 0 12-2 16-6l26-17 4-4zm152 0c-2-2-3-6-3-9 0-4 1-7 3-9l48-75c5-7 5-16 2-24s-11-14-19-16l-7-1c-6 0-12 2-16 6l-80 124c-3 4-4 8-4 12 0 5 2 9 5 13 3 3 7 5 12 6h13c6 0 12-2 16-6l26-17 4-4z"/>
+            </svg>
+            Buy me a coffee
           </a>
         </div>
       </div>
@@ -132,7 +207,7 @@ import screenshotWin from '../assets/images/screenshot-win.png';
     transform: translateX(-50%);
     width: 600px;
     height: 600px;
-    background: radial-gradient(ellipse at center, rgba(180, 0, 255, 0.12) 0%, rgba(0, 255, 255, 0.04) 40%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(180, 0, 255, 0.06) 0%, rgba(0, 255, 255, 0.02) 40%, transparent 70%);
     pointer-events: none;
   }
 
@@ -145,36 +220,49 @@ import screenshotWin from '../assets/images/screenshot-win.png';
     z-index: 1;
   }
 
-  /* ── Chip Icon — pixel art scaled up ── */
+  /* ── Chip Icon - pixel art scaled up ── */
   .chip-container {
     position: relative;
     width: 176px;
     height: 176px;
     margin-bottom: 2rem;
+    --float-speed: 6s;
+    cursor: none;
   }
 
   .chip-glow {
     position: absolute;
     inset: -40px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(180, 0, 255, 0.35) 0%, rgba(0, 255, 255, 0.1) 40%, transparent 70%);
+    background: radial-gradient(circle, rgba(180, 0, 255, 0.15) 0%, rgba(0, 255, 255, 0.04) 40%, transparent 70%);
     animation: chip-breathe 4s ease-in-out infinite;
     pointer-events: none;
   }
 
   @keyframes chip-breathe {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.1); }
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
   }
 
   .chip-icon {
     width: 100%;
     height: 100%;
-    /* Pixel-art: no anti-aliasing — crisp upscaling like the real 22px icon */
+    /* Pixel-art: no anti-aliasing - crisp upscaling like the real 22px icon */
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-    filter: drop-shadow(0 0 12px rgba(180, 0, 255, 0.5)) drop-shadow(0 0 30px rgba(0, 255, 255, 0.2));
-    animation: chip-float 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px rgba(180, 0, 255, 0.25)) drop-shadow(0 0 15px rgba(0, 255, 255, 0.08));
+    animation: chip-float var(--float-speed) ease-in-out infinite;
+    transition: filter 0.3s ease;
+  }
+
+  /* Subtle glow increase when fleeing */
+  .chip-container:hover .chip-icon {
+    filter: drop-shadow(0 0 10px rgba(180, 0, 255, 0.35)) drop-shadow(0 0 20px rgba(0, 255, 255, 0.12));
+  }
+
+  .chip-container:hover .chip-glow {
+    opacity: 0.9;
+    transform: scale(1.1);
   }
 
   @keyframes chip-float {
@@ -244,13 +332,13 @@ import screenshotWin from '../assets/images/screenshot-win.png';
   .btn-primary {
     background: var(--accent);
     color: var(--bg-deep);
-    box-shadow: 0 4px 15px rgba(232, 160, 72, 0.3);
+    box-shadow: 0 4px 15px rgba(176, 112, 224, 0.3);
   }
 
   .btn-primary:hover {
     background: var(--accent-bright);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(232, 160, 72, 0.4);
+    box-shadow: 0 6px 20px rgba(176, 112, 224, 0.4);
   }
 
   .btn-outline {
@@ -262,7 +350,7 @@ import screenshotWin from '../assets/images/screenshot-win.png';
   .btn-outline:hover {
     border-color: var(--accent);
     color: var(--accent);
-    background: rgba(232, 160, 72, 0.05);
+    background: rgba(176, 112, 224, 0.05);
   }
 
   /* ── Screenshots ── */

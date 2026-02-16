@@ -2,13 +2,25 @@
 <section class="section install" id="install">
   <div class="container">
     <h2>Installation</h2>
-    <p class="section-desc">Choose your platform and get started in seconds.</p>
+    <p class="section-desc">Choose your platform. Installation is free - unlike everything else on this page.</p>
 
     <!-- Platform tabs -->
     <div class="platform-tabs">
       <button class="tab-button active" data-platform="linux" aria-selected="true">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.065c.42-.598.713-1.28.8-2.035.062-.517.02-.978-.13-1.376-.397-.779-1.303-1.166-2.181-1.144-.526.013-1.028.201-1.46.54-.438-.402-.94-.647-1.473-.694-.63-.057-1.262.187-1.774.645a.5.5 0 00-.147.33c-.02.14.03.28.135.38.105.1.246.138.387.104.396-.095.824-.054 1.188.115.364.168.66.467.831.839.17.372.206.789.099 1.185-.107.397-.358.744-.706.98-.348.238-.764.353-1.182.327-.419-.025-.818-.185-1.127-.453-.31-.268-.512-.632-.571-1.028-.058-.397.028-.8.244-1.134.216-.335.547-.585.929-.702.382-.117.795-.093 1.16.067.365.16.66.453.828.82l.076.166c.068.15.22.25.39.25.17 0 .32-.1.388-.25.068-.15.054-.327-.038-.466l-.076-.166a2.057 2.057 0 00-1.48-1.012 2.085 2.085 0 00-1.71.373 2.107 2.107 0 00-.779 1.157c-.186.543-.17 1.14.044 1.67.215.531.615.967 1.119 1.223.504.256 1.089.317 1.637.17.549-.146 1.026-.471 1.344-.918.317-.447.456-.986.394-1.52a2.134 2.134 0 00-.669-1.399c.3-.207.636-.353.994-.428.358-.076.728-.079 1.087-.01.36.07.703.213 1.006.42.303.21.558.48.747.794.19.314.31.666.352 1.03.05.534-.05 1.07-.29 1.55-.24.48-.61.89-1.07 1.18-.13.09-.28.15-.43.18-.15.03-.31.02-.46-.03a.945.945 0 01-.42-.27c-.11-.13-.18-.29-.21-.46-.03-.17 0-.34.09-.49.09-.1..." />
+        <svg width="20" height="20" viewBox="0 0 216 256" fill="currentColor" aria-hidden="true">
+          <!-- Simplified Tux penguin -->
+          <ellipse cx="108" cy="70" rx="52" ry="50" fill="#1a1a1a"/><!-- head -->
+          <ellipse cx="88" cy="58" rx="12" ry="14" fill="white"/><!-- left eye white -->
+          <ellipse cx="128" cy="58" rx="12" ry="14" fill="white"/><!-- right eye white -->
+          <circle cx="91" cy="61" r="6" fill="#1a1a1a"/><!-- left pupil -->
+          <circle cx="131" cy="61" r="6" fill="#1a1a1a"/><!-- right pupil -->
+          <ellipse cx="108" cy="78" rx="14" ry="8" fill="#e8a820"/><!-- beak -->
+          <ellipse cx="108" cy="170" rx="68" ry="80" fill="#1a1a1a"/><!-- body -->
+          <ellipse cx="108" cy="175" rx="48" ry="62" fill="#f0f0f0"/><!-- belly -->
+          <ellipse cx="36" cy="160" rx="22" ry="50" fill="#1a1a1a" transform="rotate(-15 36 160)"/><!-- left wing -->
+          <ellipse cx="180" cy="160" rx="22" ry="50" fill="#1a1a1a" transform="rotate(15 180 160)"/><!-- right wing -->
+          <ellipse cx="82" cy="244" rx="24" ry="12" fill="#e8a820"/><!-- left foot -->
+          <ellipse cx="134" cy="244" rx="24" ry="12" fill="#e8a820"/><!-- right foot -->
         </svg>
         Linux
       </button>
@@ -74,16 +86,28 @@
           </div>
         </div>
 
+        <div class="install-card install-alt">
+          <h3>Or just download the binary</h3>
+          <p>Grab it and run it yourself. No installer, no desktop integration.</p>
+          <div class="download-row">
+            <a href="https://github.com/utajum/claude-usage/releases/latest/download/claude-usage-linux-amd64" class="download-btn" target="_blank" rel="noopener noreferrer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              x64
+            </a>
+            <a href="https://github.com/utajum/claude-usage/releases/latest/download/claude-usage-linux-arm64" class="download-btn" target="_blank" rel="noopener noreferrer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              ARM64
+            </a>
+          </div>
+          <p class="flags-desc">Just <code>chmod +x</code> and run. Put it wherever you want.</p>
+        </div>
+
         <div class="requirements">
           <h4>Requirements</h4>
           <div class="req-list">
             <span class="req-item">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
               Linux x64 / ARM64
-            </span>
-            <span class="req-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              curl
             </span>
             <span class="req-item">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -238,21 +262,37 @@ make build</code>
   const tabButtons = document.querySelectorAll('.tab-button');
   const tabPanels = document.querySelectorAll('.tab-panel');
 
+  function activateTab(platform: string) {
+    tabButtons.forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-selected', 'false');
+    });
+    tabPanels.forEach(panel => {
+      panel.classList.remove('active');
+    });
+
+    const btn = document.querySelector(`.tab-button[data-platform="${platform}"]`);
+    const panel = document.querySelector(`.tab-panel[data-platform="${platform}"]`);
+    if (btn && panel) {
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      panel.classList.add('active');
+    }
+  }
+
+  // Detect OS and show the matching tab by default
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.includes('mac') || ua.includes('darwin')) {
+    activateTab('macos');
+  } else if (ua.includes('win')) {
+    activateTab('windows');
+  }
+  // Linux is already the default in the HTML, so no else needed
+
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
       const platform = (button as HTMLElement).dataset.platform;
-
-      tabButtons.forEach(btn => {
-        btn.classList.remove('active');
-        btn.setAttribute('aria-selected', 'false');
-      });
-      button.classList.add('active');
-      button.setAttribute('aria-selected', 'true');
-
-      tabPanels.forEach(panel => {
-        panel.classList.remove('active');
-      });
-      document.querySelector(`.tab-panel[data-platform="${platform}"]`)?.classList.add('active');
+      if (platform) activateTab(platform);
     });
   });
 
@@ -364,9 +404,9 @@ make build</code>
     letter-spacing: 0.05em;
     padding: 0.2rem 0.6rem;
     border-radius: 20px;
-    background: rgba(232, 160, 72, 0.15);
+    background: rgba(176, 112, 224, 0.15);
     color: var(--accent);
-    border: 1px solid rgba(232, 160, 72, 0.3);
+    border: 1px solid rgba(176, 112, 224, 0.3);
   }
 
   .install-card > p {
@@ -446,6 +486,16 @@ make build</code>
     box-shadow: var(--shadow-glow);
   }
 
+  .download-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .download-row .download-btn {
+    margin-bottom: 0.75rem;
+  }
+
   /* ── Install steps ── */
   .install-steps {
     display: flex;
@@ -479,7 +529,7 @@ make build</code>
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(232, 160, 72, 0.15);
+    background: rgba(176, 112, 224, 0.15);
     color: var(--accent);
     border-radius: 50%;
     font-size: 0.75rem;
