@@ -1,6 +1,6 @@
-# Sonar-Scan
+# claude-usage-website
 
-Website for Claude Usage
+Website for [claude-usage](https://github.com/utajum/claude-usage) - system tray token monitor for Claude Code API.
 
 **[claude-usage.elevatech.xyz](https://claude-usage.elevatech.xyz)**
 

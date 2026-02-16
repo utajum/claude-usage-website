@@ -2,7 +2,7 @@
   "name": "claude-usage-website",
   "type": "module",
   "version": "1.0.0",
-  "description": "claude-usage - zero-configuration SonarQube code vulnerability scanner",
+  "description": "claude-usage - system tray application for monitoring Claude Code API token consumption in real-time",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -30,15 +30,15 @@
   },
   "license": "MIT",
   "keywords": [
-    "sonarqube",
-    "scanner",
-    "vulnerability",
-    "code-quality",
-    "docker",
-    "bash",
-    "cli",
-    "static-analysis",
-    "security",
-    "linux"
+    "claude",
+    "claude-code",
+    "anthropic",
+    "api-usage",
+    "token-monitor",
+    "system-tray",
+    "rate-limit",
+    "cross-platform",
+    "developer-tools",
+    "go"
   ]
 }
