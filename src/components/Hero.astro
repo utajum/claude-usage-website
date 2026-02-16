@@ -1,0 +1,342 @@
+---
+import { Image } from 'astro:assets';
+import screenshotLinux from '../assets/images/screenshot-linux.png';
+import screenshotWin from '../assets/images/screenshot-win.png';
+---
+
+<!-- Hero: Pixel-accurate systray chip icon from the Go source code -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+
+      <!-- Chip Icon — pixel-accurate recreation of RenderChipImage() from internal/icon/render.go
+           22x22 grid. Body: #B400FF from (2,2)-(19,19). Pins: #00FFFF 2x2 blocks every 3px from 5.
+           Text: "72" using the 7x9 digitPatterns font, white, centered. -->
+      <div class="chip-container">
+        <div class="chip-glow"></div>
+        <svg class="chip-icon" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" aria-label="claude-usage systray icon showing 72%">
+          <defs>
+            <filter id="chipGlow" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="1.2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Chip body — purple rectangle (2,2) to (19,19) with corner cuts -->
+          <rect x="2" y="2" width="18" height="18" fill="#B400FF" />
+          <!-- Corner cuts (transparent pixels at the 4 corners of the body) -->
+          <rect x="2" y="2" width="1" height="1" fill="#141218" />
+          <rect x="19" y="2" width="1" height="1" fill="#141218" />
+          <rect x="2" y="19" width="1" height="1" fill="#141218" />
+          <rect x="19" y="19" width="1" height="1" fill="#141218" />
+
+          <!-- Cyan pins — top edge (y=0..1, 2x2 blocks at x=5,8,11,14,17) -->
+          <rect x="5" y="0" width="2" height="2" fill="#00FFFF" />
+          <rect x="8" y="0" width="2" height="2" fill="#00FFFF" />
+          <rect x="11" y="0" width="2" height="2" fill="#00FFFF" />
+          <rect x="14" y="0" width="2" height="2" fill="#00FFFF" />
+          <!-- Bottom pins (y=20..21) -->
+          <rect x="5" y="20" width="2" height="2" fill="#00FFFF" />
+          <rect x="8" y="20" width="2" height="2" fill="#00FFFF" />
+          <rect x="11" y="20" width="2" height="2" fill="#00FFFF" />
+          <rect x="14" y="20" width="2" height="2" fill="#00FFFF" />
+          <!-- Left pins (x=0..1) -->
+          <rect x="0" y="5" width="2" height="2" fill="#00FFFF" />
+          <rect x="0" y="8" width="2" height="2" fill="#00FFFF" />
+          <rect x="0" y="11" width="2" height="2" fill="#00FFFF" />
+          <rect x="0" y="14" width="2" height="2" fill="#00FFFF" />
+          <!-- Right pins (x=20..21) -->
+          <rect x="20" y="5" width="2" height="2" fill="#00FFFF" />
+          <rect x="20" y="8" width="2" height="2" fill="#00FFFF" />
+          <rect x="20" y="11" width="2" height="2" fill="#00FFFF" />
+          <rect x="20" y="14" width="2" height="2" fill="#00FFFF" />
+
+          <!-- "72" text — from digitPatterns in render.go, 7x9 font, charWidth=8
+               "7" pattern at startX=3, startY=2  (centered: cx=11, cy=11, totalWidth=15, startX=11-7=4, startY=11-4=7... 
+               Actually: text "72", len=2, totalWidth=2*8-1=15, startX=11-15/2=11-7=4, startY=11-9/2=11-4=7)
+               Wait — for the 22px icon the text is centered at (11,11).
+               Let me recompute: drawText(img, "72", 11, 11, white)
+               totalWidth = 2*8-1 = 15, startX = 11-15/2 = 11-7 = 4, startY = 11-9/2 = 11-4 = 7
+               "7" drawn at (4,7), "2" drawn at (12,7)
+          -->
+          <!-- Digit "7" at (4,7) — pattern from digitPatterns['7'] -->
+          <!-- Row 0: 1111111 --> <rect x="4" y="7" width="7" height="1" fill="white" />
+          <!-- Row 1: 1111111 --> <rect x="4" y="8" width="7" height="1" fill="white" />
+          <!-- Row 2: 0000011 --> <rect x="9" y="9" width="2" height="1" fill="white" />
+          <!-- Row 3: 0000110 --> <rect x="8" y="10" width="2" height="1" fill="white" />
+          <!-- Row 4: 0001100 --> <rect x="7" y="11" width="2" height="1" fill="white" />
+          <!-- Row 5: 0011000 --> <rect x="6" y="12" width="2" height="1" fill="white" />
+          <!-- Row 6: 0011000 --> <rect x="6" y="13" width="2" height="1" fill="white" />
+          <!-- Row 7: 0011000 --> <rect x="6" y="14" width="2" height="1" fill="white" />
+          <!-- Row 8: 0011000 --> <rect x="6" y="15" width="2" height="1" fill="white" />
+
+          <!-- Digit "2" at (12,7) — pattern from digitPatterns['2'] -->
+          <!-- Row 0: 0111110 --> <rect x="13" y="7" width="5" height="1" fill="white" />
+          <!-- Row 1: 1111111 --> <rect x="12" y="8" width="7" height="1" fill="white" />
+          <!-- Row 2: 1100011 --> <rect x="12" y="9" width="2" height="1" fill="white" /><rect x="17" y="9" width="2" height="1" fill="white" />
+          <!-- Row 3: 0000111 --> <rect x="16" y="10" width="3" height="1" fill="white" />
+          <!-- Row 4: 0011110 --> <rect x="14" y="11" width="4" height="1" fill="white" />
+          <!-- Row 5: 0111000 --> <rect x="13" y="12" width="3" height="1" fill="white" />
+          <!-- Row 6: 1110000 --> <rect x="12" y="13" width="3" height="1" fill="white" />
+          <!-- Row 7: 1111111 --> <rect x="12" y="14" width="7" height="1" fill="white" />
+          <!-- Row 8: 1111111 --> <rect x="12" y="15" width="7" height="1" fill="white" />
+        </svg>
+      </div>
+
+      <!-- Text content -->
+      <div class="hero-text">
+        <h1>claude<span class="highlight">-usage</span></h1>
+        <p class="tagline">System tray token monitor</p>
+        <p class="subtitle">Watch your tokens burn in real-time. Always visible, always current.</p>
+        
+        <div class="hero-buttons">
+          <a href="https://github.com/utajum/claude-usage" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            View on GitHub
+          </a>
+          <a href="#install" class="btn btn-outline">
+            Install now
+          </a>
+        </div>
+      </div>
+
+      <!-- Screenshots -->
+      <div class="hero-screenshots">
+        <div class="screenshot-linux">
+          <Image src={screenshotLinux} alt="claude-usage Linux system tray tooltip showing progress bars" loading="eager" format="webp" quality={85} data-lightbox />
+        </div>
+        <div class="screenshot-windows">
+          <Image src={screenshotWin} alt="claude-usage Windows system tray tooltip" loading="eager" format="webp" quality={85} data-lightbox />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 4rem 0 3rem;
+    background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-dark) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse at center, rgba(180, 0, 255, 0.12) 0%, rgba(0, 255, 255, 0.04) 40%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Chip Icon — pixel art scaled up ── */
+  .chip-container {
+    position: relative;
+    width: 176px;
+    height: 176px;
+    margin-bottom: 2rem;
+  }
+
+  .chip-glow {
+    position: absolute;
+    inset: -40px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(180, 0, 255, 0.35) 0%, rgba(0, 255, 255, 0.1) 40%, transparent 70%);
+    animation: chip-breathe 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes chip-breathe {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  .chip-icon {
+    width: 100%;
+    height: 100%;
+    /* Pixel-art: no anti-aliasing — crisp upscaling like the real 22px icon */
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 0 12px rgba(180, 0, 255, 0.5)) drop-shadow(0 0 30px rgba(0, 255, 255, 0.2));
+    animation: chip-float 6s ease-in-out infinite;
+  }
+
+  @keyframes chip-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* ── Text ── */
+  .hero-text {
+    margin-bottom: 3rem;
+  }
+
+  .hero-text h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .highlight {
+    color: var(--accent);
+  }
+
+  .tagline {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #c080ff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 1rem;
+  }
+
+  .subtitle {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0 0 2rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Buttons ── */
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg-deep);
+    box-shadow: 0 4px 15px rgba(232, 160, 72, 0.3);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232, 160, 72, 0.4);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text-primary);
+    border: 2px solid var(--border-dark);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232, 160, 72, 0.05);
+  }
+
+  /* ── Screenshots ── */
+  .hero-screenshots {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .screenshot-linux,
+  .screenshot-windows {
+    width: 320px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-elevated);
+    border: 1px solid var(--border-dark);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .screenshot-linux:hover,
+  .screenshot-windows:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elevated), var(--shadow-glow);
+  }
+
+  .screenshot-linux img,
+  .screenshot-windows img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 820px) {
+    .hero {
+      padding: 3rem 0 2rem;
+    }
+
+    .chip-container {
+      width: 140px;
+      height: 140px;
+    }
+
+    .hero-text h1 {
+      font-size: 2.5rem;
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+    }
+
+    .screenshot-linux,
+    .screenshot-windows {
+      width: 280px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .chip-container {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-text h1 {
+      font-size: 2rem;
+    }
+
+    .screenshot-linux,
+    .screenshot-windows {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>

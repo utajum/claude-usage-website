@@ -1,0 +1,199 @@
+---
+import { Image } from 'astro:assets';
+import screenshotLinux from '../assets/images/screenshot-linux.png';
+---
+
+<!-- HowItWorks: 3-step flow -->
+<section class="section section-dark how-it-works">
+  <div class="container">
+    <h2>How it works</h2>
+    <p class="section-desc">Three steps to never lose track of your token usage again.</p>
+
+    <div class="steps">
+      <!-- Step 1 -->
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </div>
+        <h3>Install</h3>
+        <p>One command installs the app. No configuration needed.</p>
+        <code>curl -sL ... | bash</code>
+      </div>
+
+      <!-- Arrow -->
+      <div class="step-arrow" aria-hidden="true">
+        <svg width="48" height="24" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 12h36M36 6l6 6-6 6"/>
+        </svg>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h3>Tray icon appears</h3>
+        <p>The icon shows in your system tray. Auto-starts with your system.</p>
+      </div>
+
+      <!-- Arrow -->
+      <div class="step-arrow" aria-hidden="true">
+        <svg width="48" height="24" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 12h36M36 6l6 6-6 6"/>
+        </svg>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-visual">
+          <Image src={screenshotLinux} alt="claude-usage tooltip showing progress bars" loading="lazy" format="webp" quality={85} data-lightbox />
+        </div>
+        <h3>Hover to monitor</h3>
+        <p>See real-time usage bars, model breakdown, and reset timers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .how-it-works {
+    background: var(--bg-dark);
+  }
+
+  .steps {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-dark);
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .step:hover {
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .step-number {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: var(--bg-deep);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .step-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(232, 160, 72, 0.1);
+    border-radius: var(--radius);
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .step-visual {
+    width: 100%;
+    max-width: 220px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--border-dark);
+    margin-bottom: 1.25rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .step-visual:hover {
+    transform: scale(1.03);
+  }
+
+  .step-visual img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .step h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+  }
+
+  .step p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin: 0 0 1rem;
+    line-height: 1.5;
+  }
+
+  .step code {
+    font-size: 0.8rem;
+    background: var(--bg-input);
+    color: var(--accent);
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  }
+
+  .step-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--accent-dim);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 900px) {
+    .steps {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .step-arrow {
+      transform: rotate(90deg);
+      margin: -0.5rem 0;
+    }
+
+    .step {
+      max-width: 400px;
+      width: 100%;
+    }
+  }
+</style>

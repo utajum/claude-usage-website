@@ -1,0 +1,88 @@
+<!-- Footer: Links with warm styling -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="https://github.com/utajum/claude-usage" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://github.com/utajum/claude-usage/issues" target="_blank" rel="noopener noreferrer">Issues</a>
+        <a href="https://github.com/utajum/claude-usage/discussions" target="_blank" rel="noopener noreferrer">Discussions</a>
+        <a href="https://buymeacoffee.com/utajum" target="_blank" rel="noopener noreferrer">Donate</a>
+      </div>
+      
+      <div class="footer-credits">
+        <p>Built with <a href="https://go.dev/" target="_blank" rel="noopener noreferrer">Go</a> & <a href="https://fyne.io/" target="_blank" rel="noopener noreferrer">fyne.io/systray</a></p>
+        <p class="footer-legal">Not affiliated with or endorsed by Anthropic.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    padding: 3rem 0;
+    background: var(--bg-deep);
+    border-top: 1px solid var(--border-dark);
+  }
+
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--accent);
+  }
+
+  .footer-credits {
+    text-align: center;
+  }
+
+  .footer-credits p {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .footer-credits a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-credits a:hover {
+    color: var(--accent);
+  }
+
+  .footer-legal {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    opacity: 0.7;
+  }
+
+  @media (max-width: 640px) {
+    .footer-links {
+      gap: 1.5rem;
+    }
+
+    footer {
+      padding: 2rem 0;
+    }
+  }
+</style>

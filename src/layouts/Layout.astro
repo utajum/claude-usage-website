@@ -1,0 +1,283 @@
+---
+import PostHog from "../components/posthog.astro";
+const siteUrl = 'https://claude-usage.elevatech.xyz';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Preconnect to analytics -->
+    <link rel="preconnect" href="https://us.i.posthog.com" />
+
+    <meta name="generator" content={Astro.generator} />
+    <meta name="author" content="utajum" />
+    <link rel="canonical" href={siteUrl} />
+
+    <title>claude-usage | System Tray Token Monitor</title>
+    <meta
+      name="description"
+      content="A system tray application that monitors your Claude Code API token consumption in real-time. Watch progress bars, model breakdowns, and reset timers. Cross-platform with one-command installation."
+    />
+
+
+    <!-- OpenGraph -->
+    <meta property="og:title" content="claude-usage | System Tray Token Monitor" />
+    <meta
+      property="og:description"
+      content="A system tray application that monitors your Claude Code API token consumption in real-time. Watch progress bars, model breakdowns, and reset timers. Cross-platform with one-command installation."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:site_name" content="claude-usage" />
+    <meta property="og:image" content={`${siteUrl}/og-image.png`} />
+    <meta property="og:logo" content={`${siteUrl}/og-image.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="claude-usage — system tray application monitoring Claude Code API token consumption" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="claude-usage | System Tray Token Monitor" />
+    <meta
+      name="twitter:description"
+      content="A system tray application that monitors your Claude Code API token consumption in real-time. Watch progress bars, model breakdowns, and reset timers. Cross-platform with one-command installation."
+    />
+    <meta name="twitter:image" content={`${siteUrl}/og-image.png`} />
+    <meta name="twitter:image:alt" content="claude-usage — system tray application monitoring Claude Code API token consumption" />
+
+    <meta name="theme-color" content="#141218" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "claude-usage",
+      "operatingSystem": "Linux, macOS, Windows",
+      "applicationCategory": "DeveloperApplication",
+      "description": "A system tray application that monitors your Claude Code API token consumption in real-time. Watch progress bars, model breakdowns, and reset timers. Cross-platform with one-command installation.",
+      "url": siteUrl,
+      "downloadUrl": "https://github.com/utajum/claude-usage",
+      "softwareVersion": "1.0.0",
+      "image": `${siteUrl}/og-image.png`,
+      "screenshot": `${siteUrl}/screenshot-banner.png`,
+      "author": {
+        "@type": "Person",
+        "name": "utajum",
+        "url": "https://github.com/utajum"
+      },
+      "license": "https://github.com/utajum/claude-usage/blob/master/LICENSE",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "sameAs": [
+        "https://github.com/utajum/claude-usage"
+      ]
+    })} />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <!-- Screenshot lightbox dialog -->
+    <dialog id="lightbox" aria-label="Screenshot preview">
+      <img id="lightbox-img" src="" alt="" />
+    </dialog>
+
+    <script>
+      const dialog = document.getElementById('lightbox') as HTMLDialogElement;
+      const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+
+      document.querySelectorAll<HTMLImageElement>('[data-lightbox]').forEach((img) => {
+        img.addEventListener('click', () => {
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt;
+          dialog.showModal();
+        });
+      });
+
+      // Close on backdrop click
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+          dialog.close();
+        }
+      });
+
+      // Close on image click too
+      lightboxImg.addEventListener('click', () => {
+        dialog.close();
+      });
+
+      // Close on Escape (native dialog behavior, but ensure cleanup)
+      dialog.addEventListener('close', () => {
+        lightboxImg.src = '';
+      });
+    </script>
+
+    <PostHog />
+  </body>
+</html>
+
+<style is:global>
+  /* ── Warm Gauge Dashboard Color System ── */
+  :root {
+    /* Primary accent - warm amber (fuel gauge color) */
+    --accent: #e8a048;
+    --accent-bright: #f0b060;
+    --accent-dim: #c98a3d;
+    --accent-glow: rgba(232, 160, 72, 0.15);
+    
+    /* Secondary accents */
+    --accent-copper: #c0785a;
+    --accent-green: #5cb87a;
+    --accent-red: #e85d4a;
+    --accent-yellow: #d4a848;
+    
+    /* Backgrounds - deep charcoal-brown palette */
+    --bg-deep: #141218;
+    --bg-dark: #1a1720;
+    --bg-card: #211e28;
+    --bg-card-hover: #2a2632;
+    --bg-input: #1e1b24;
+    
+    /* Borders */
+    --border-dark: #332f3a;
+    --border-hover: #4a4555;
+    --border-accent: rgba(232, 160, 72, 0.3);
+    
+    /* Text - warm white/taupe */
+    --text-primary: #e8e4ef;
+    --text-muted: #9a95a5;
+    --text-dim: #6e6a78;
+    
+    /* Radius */
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 16px;
+    
+    /* Shadows */
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px var(--accent-glow);
+  }
+
+  .skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 0.75rem 1.5rem;
+    background: var(--accent);
+    color: var(--bg-deep);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    text-decoration: none;
+    transition: top 0.15s;
+  }
+
+  .skip-to-content:focus {
+    top: 0;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── Selection ── */
+  ::selection {
+    background: var(--accent-glow);
+    color: var(--accent-bright);
+  }
+
+  /* ── Lightbox Dialog ── */
+  #lightbox {
+    border: none;
+    background: transparent;
+    padding: 0;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: visible;
+    outline: none;
+  }
+
+  #lightbox::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  #lightbox[open] {
+    animation: lightbox-in 0.3s ease forwards;
+  }
+
+  #lightbox-img {
+    display: block;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    border-radius: var(--radius);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px var(--accent-glow);
+    cursor: pointer;
+    transform: scale(1.15);
+  }
+
+  @keyframes lightbox-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg-deep);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-dark);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--border-hover);
+  }
+</style>

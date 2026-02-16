@@ -1,0 +1,684 @@
+<!-- Install: Tabbed platform install cards with full instructions -->
+<section class="section install" id="install">
+  <div class="container">
+    <h2>Installation</h2>
+    <p class="section-desc">Choose your platform and get started in seconds.</p>
+
+    <!-- Platform tabs -->
+    <div class="platform-tabs">
+      <button class="tab-button active" data-platform="linux" aria-selected="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.065c.42-.598.713-1.28.8-2.035.062-.517.02-.978-.13-1.376-.397-.779-1.303-1.166-2.181-1.144-.526.013-1.028.201-1.46.54-.438-.402-.94-.647-1.473-.694-.63-.057-1.262.187-1.774.645a.5.5 0 00-.147.33c-.02.14.03.28.135.38.105.1.246.138.387.104.396-.095.824-.054 1.188.115.364.168.66.467.831.839.17.372.206.789.099 1.185-.107.397-.358.744-.706.98-.348.238-.764.353-1.182.327-.419-.025-.818-.185-1.127-.453-.31-.268-.512-.632-.571-1.028-.058-.397.028-.8.244-1.134.216-.335.547-.585.929-.702.382-.117.795-.093 1.16.067.365.16.66.453.828.82l.076.166c.068.15.22.25.39.25.17 0 .32-.1.388-.25.068-.15.054-.327-.038-.466l-.076-.166a2.057 2.057 0 00-1.48-1.012 2.085 2.085 0 00-1.71.373 2.107 2.107 0 00-.779 1.157c-.186.543-.17 1.14.044 1.67.215.531.615.967 1.119 1.223.504.256 1.089.317 1.637.17.549-.146 1.026-.471 1.344-.918.317-.447.456-.986.394-1.52a2.134 2.134 0 00-.669-1.399c.3-.207.636-.353.994-.428.358-.076.728-.079 1.087-.01.36.07.703.213 1.006.42.303.21.558.48.747.794.19.314.31.666.352 1.03.05.534-.05 1.07-.29 1.55-.24.48-.61.89-1.07 1.18-.13.09-.28.15-.43.18-.15.03-.31.02-.46-.03a.945.945 0 01-.42-.27c-.11-.13-.18-.29-.21-.46-.03-.17 0-.34.09-.49.09-.1..." />
+        </svg>
+        Linux
+      </button>
+      <button class="tab-button" data-platform="macos" aria-selected="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+        macOS
+      </button>
+      <button class="tab-button" data-platform="windows" aria-selected="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M3 12V6.75l6-1.32v6.48L3 12m17-9v8.75l-10 .15V5.21L20 3M3 13l6 .09v6.81l-6-1.15V13m17 .25V22l-10-1.91V13.1l10 .15z"/>
+        </svg>
+        Windows
+      </button>
+    </div>
+
+    <!-- Tab content -->
+    <div class="tab-content">
+
+      <!-- ─── Linux ─── -->
+      <div class="tab-panel active" data-platform="linux" role="tabpanel">
+        <div class="install-card">
+          <h3>One-line installer <span class="badge">Recommended</span></h3>
+          <p>Works on x64 and ARM64 Linux. Downloads the latest release, installs the binary, creates a desktop entry, and sets up autostart.</p>
+          
+          <div class="code-block">
+            <code>curl -sL https://raw.githubusercontent.com/utajum/claude-usage/master/scripts/install-linux.sh | bash</code>
+            <button class="copy-btn" aria-label="Copy command">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+
+          <details class="install-flags">
+            <summary>Installer options</summary>
+            <div class="flags-content">
+              <div class="flag-item"><code>--no-autostart</code> <span>Skip autostart setup</span></div>
+              <div class="flag-item"><code>--no-desktop</code> <span>Skip desktop entry creation</span></div>
+              <div class="flag-item"><code>--uninstall</code> <span>Remove claude-usage and all files</span></div>
+            </div>
+          </details>
+        </div>
+
+        <div class="install-card install-alt">
+          <h3>Manual binary download</h3>
+          <p>Download the binary directly if you prefer to manage installation yourself.</p>
+
+          <div class="arch-tabs">
+            <span class="arch-label">x64:</span>
+            <div class="code-block">
+              <code>curl -sL https://github.com/utajum/claude-usage/releases/latest/download/claude-usage-linux-amd64 -o claude-usage && chmod +x claude-usage</code>
+              <button class="copy-btn" aria-label="Copy command">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <span class="arch-label">ARM64:</span>
+            <div class="code-block">
+              <code>curl -sL https://github.com/utajum/claude-usage/releases/latest/download/claude-usage-linux-arm64 -o claude-usage && chmod +x claude-usage</code>
+              <button class="copy-btn" aria-label="Copy command">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="requirements">
+          <h4>Requirements</h4>
+          <div class="req-list">
+            <span class="req-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Linux x64 / ARM64
+            </span>
+            <span class="req-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              curl
+            </span>
+            <span class="req-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Claude Code installed &amp; logged in
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── macOS ─── -->
+      <div class="tab-panel" data-platform="macos" role="tabpanel">
+        <div class="install-card">
+          <h3>Download DMG <span class="badge">Recommended</span></h3>
+          <p>For Intel and Apple Silicon Macs. Download the DMG from GitHub Releases.</p>
+          
+          <a href="https://github.com/utajum/claude-usage/releases" class="download-btn" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download from GitHub Releases
+          </a>
+
+          <div class="install-steps">
+            <div class="step"><span class="step-num">1</span> Open the <code>.dmg</code> file and drag <strong>claude-usage</strong> to Applications</div>
+            <div class="step"><span class="step-num">2</span> Right-click the app and select <strong>Open</strong> (required first time for Gatekeeper)</div>
+            <div class="step"><span class="step-num">3</span> The app lives in your menu bar &mdash; hover to see usage stats</div>
+          </div>
+        </div>
+
+        <div class="install-card install-alt">
+          <h3>Binary download</h3>
+          <p>Download the standalone binary for your architecture.</p>
+
+          <div class="arch-tabs">
+            <span class="arch-label">Apple Silicon:</span>
+            <div class="code-block">
+              <code>curl -sL https://github.com/utajum/claude-usage/releases/latest/download/claude-usage-darwin-arm64 -o claude-usage && chmod +x claude-usage</code>
+              <button class="copy-btn" aria-label="Copy command">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <span class="arch-label">Intel:</span>
+            <div class="code-block">
+              <code>curl -sL https://github.com/utajum/claude-usage/releases/latest/download/claude-usage-darwin-amd64 -o claude-usage && chmod +x claude-usage</code>
+              <button class="copy-btn" aria-label="Copy command">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <details class="install-flags">
+            <summary>Autostart setup</summary>
+            <div class="flags-content">
+              <p class="flags-desc">To launch automatically at login, build with <code>make install-macos</code> which creates the .app bundle and configures autostart via LaunchAgents. See the <a href="https://github.com/utajum/claude-usage#macos" target="_blank" rel="noopener noreferrer">README</a> for manual plist setup.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="requirements">
+          <h4>Requirements</h4>
+          <div class="req-list">
+            <span class="req-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              macOS 11+ (Intel or Apple Silicon)
+            </span>
+            <span class="req-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Claude Code installed &amp; logged in
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Windows ─── -->
+      <div class="tab-panel" data-platform="windows" role="tabpanel">
+        <div class="install-card">
+          <h3>PowerShell installer <span class="badge">Recommended</span></h3>
+          <p>Download the ZIP from GitHub Releases, extract it, and run the installer.</p>
+
+          <div class="install-steps">
+            <div class="step"><span class="step-num">1</span> Download <a href="https://github.com/utajum/claude-usage/releases" target="_blank" rel="noopener noreferrer"><code>claude-usage-windows-amd64.zip</code></a> from Releases</div>
+            <div class="step"><span class="step-num">2</span> Extract the ZIP archive</div>
+            <div class="step"><span class="step-num">3</span> Right-click <code>install-windows.ps1</code> &rarr; <strong>Run with PowerShell</strong></div>
+          </div>
+
+          <p class="install-note">Or run from a terminal:</p>
+          <div class="code-block">
+            <code>powershell -ExecutionPolicy Bypass -File install-windows.ps1</code>
+            <button class="copy-btn" aria-label="Copy command">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+
+          <details class="install-flags">
+            <summary>Installer options</summary>
+            <div class="flags-content">
+              <div class="flag-item"><code>-NoAutostart</code> <span>Skip Startup shortcut creation</span></div>
+              <div class="flag-item"><code>-Uninstall</code> <span>Remove claude-usage and all files</span></div>
+              <p class="flags-desc">Installs to <code>%LOCALAPPDATA%\Programs\claude-usage\</code>. Creates Start Menu and Startup shortcuts.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="install-card install-alt">
+          <h3>Or just download the exe</h3>
+          <p>Grab the standalone executable and manage it yourself. No installer needed.</p>
+
+          <a href="https://github.com/utajum/claude-usage/releases/latest/download/claude-usage-windows-amd64.exe" class="download-btn" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            claude-usage-windows-amd64.exe
+          </a>
+          <p class="flags-desc">Just run it. No installation, no PowerShell, no admin rights. Put it wherever you want.</p>
+        </div>
+
+        <div class="requirements">
+          <h4>Requirements</h4>
+          <div class="req-list">
+            <span class="req-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Windows 10/11 x64
+            </span>
+            <span class="req-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Claude Code installed &amp; logged in
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Build from source -->
+    <div class="source-section">
+      <details class="source-details">
+        <summary>Or build from source</summary>
+        <div class="source-content">
+          <p>Requires Go 1.22+ (CGO needed for macOS/Windows)</p>
+          <div class="code-block">
+            <code>git clone https://github.com/utajum/claude-usage.git
+cd claude-usage
+make build</code>
+            <button class="copy-btn" aria-label="Copy commands">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+          <p class="flags-desc">Use <code>make build-all</code> for all platforms, <code>make install-linux</code> for full Linux install with desktop integration, or <code>make install-macos</code> to build the .app bundle.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Tab switching
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const platform = (button as HTMLElement).dataset.platform;
+
+      tabButtons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      button.classList.add('active');
+      button.setAttribute('aria-selected', 'true');
+
+      tabPanels.forEach(panel => {
+        panel.classList.remove('active');
+      });
+      document.querySelector(`.tab-panel[data-platform="${platform}"]`)?.classList.add('active');
+    });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const code = btn.previousElementSibling?.textContent;
+      if (code) {
+        navigator.clipboard.writeText(code).then(() => {
+          btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>`;
+          setTimeout(() => {
+            btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+          }, 2000);
+        });
+      }
+    });
+  });
+</script>
+
+<style>
+  .install {
+    background: var(--bg-deep);
+  }
+
+  /* ── Tabs ── */
+  .platform-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .tab-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .tab-button:hover {
+    border-color: var(--border-accent);
+    color: var(--text-primary);
+  }
+
+  .tab-button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg-deep);
+  }
+
+  /* ── Tab panels ── */
+  .tab-content {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Install cards ── */
+  .install-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .install-card.install-alt {
+    background: var(--bg-dark);
+    border-color: var(--border-dark);
+  }
+
+  .install-card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    background: rgba(232, 160, 72, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(232, 160, 72, 0.3);
+  }
+
+  .install-card > p {
+    color: var(--text-muted);
+    margin: 0 0 1.25rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .install-note {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 1rem 0 0.5rem;
+  }
+
+  /* ── Code blocks ── */
+  .code-block {
+    position: relative;
+    background: var(--bg-input);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .code-block code {
+    display: block;
+    font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding-right: 2.5rem;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    padding: 0.4rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── Download button ── */
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: var(--accent);
+    color: var(--bg-deep);
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .download-btn:hover {
+    background: var(--accent-bright);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* ── Install steps ── */
+  .install-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .step {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .step a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .step a:hover {
+    text-decoration: underline;
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(232, 160, 72, 0.15);
+    color: var(--accent);
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .step code {
+    font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.82rem;
+    background: var(--bg-input);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    color: var(--accent-bright);
+  }
+
+  /* ── Arch labels ── */
+  .arch-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .arch-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 0.25rem;
+  }
+
+  /* ── Flags / details ── */
+  .install-flags {
+    background: var(--bg-input);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 0.5rem;
+  }
+
+  .install-flags summary {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: color 0.15s;
+  }
+
+  .install-flags summary:hover {
+    color: var(--text-primary);
+  }
+
+  .install-flags summary::after {
+    content: '+';
+    font-size: 1.1rem;
+    color: var(--accent);
+  }
+
+  .install-flags[open] summary::after {
+    content: '\2212';
+  }
+
+  .flags-content {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border-dark);
+  }
+
+  .flag-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 0.3rem 0;
+  }
+
+  .flag-item code {
+    font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.8rem;
+    color: var(--accent-bright);
+    background: var(--bg-card);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .flags-desc {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    margin: 0.5rem 0 0;
+    line-height: 1.5;
+  }
+
+  .flags-desc code {
+    font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* ── Requirements ── */
+  .requirements {
+    margin-top: 1.5rem;
+  }
+
+  .requirements h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.75rem;
+  }
+
+  .req-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .req-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .req-item svg {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── Source section ── */
+  .source-section {
+    max-width: 680px;
+    margin: 2rem auto 0;
+  }
+
+  .source-details {
+    background: var(--bg-card);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .source-details summary {
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-muted);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: color 0.15s;
+  }
+
+  .source-details summary:hover {
+    color: var(--text-primary);
+  }
+
+  .source-details summary::after {
+    content: '+';
+    font-size: 1.25rem;
+    color: var(--accent);
+  }
+
+  .source-details[open] summary::after {
+    content: '\2212';
+  }
+
+  .source-content {
+    padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid var(--border-dark);
+  }
+
+  .source-content > p:first-child {
+    color: var(--text-muted);
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+
+  .source-content .code-block {
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .install-card {
+      padding: 1.5rem;
+    }
+
+    .code-block code {
+      font-size: 0.75rem;
+    }
+  }
+</style>

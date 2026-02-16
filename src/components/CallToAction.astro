@@ -1,0 +1,193 @@
+<!-- CTA: Call to action with warm styling -->
+<section class="section cta">
+  <div class="container">
+    <div class="cta-card">
+      <div class="cta-content">
+        <h2>Start watching your tokens</h2>
+        <p>Install in seconds. Never lose track of your API usage again.</p>
+        
+        <div class="cta-buttons">
+          <a href="https://github.com/utajum/claude-usage" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View on GitHub
+          </a>
+          <a href="https://buymeacoffee.com/utajum" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 884 1279" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M791 298c-1-4-2-7-4-10-3-5-7-8-12-11-4-2-8-3-13-3H121c-5 0-9 1-13 3-5 3-9 6-12 11-2 3-3 6-4 10l-1 5-77 620c-6 49 7 98 37 137s74 63 123 67h1l6 1h459c50 0 97-22 130-60 32-38 47-87 41-136l-77-627-1-5v-2zm-72 622c3 26-4 51-21 71s-42 31-68 31H253l-4-1c-25-2-49-14-64-35s-22-46-19-71l74-594h444l57 460 18 139z"/>
+              <path d="M670 395H213l-49 393c-4 33 5 66 26 92s52 43 83 47h1l3 1h327c34 0 65-15 87-41s33-58 27-91l-48-401zm-31 48l45 372c4 22-3 45-18 61s-36 28-59 28H280l-2-1c-21-2-40-13-54-31s-20-40-17-62l42-337h2l388-30z"/>
+              <path d="M286 225c-2-2-3-6-3-9 0-4 1-7 3-9l48-75c5-7 5-16 2-24s-11-14-19-16l-7-1c-6 0-12 2-16 6l-80 124c-3 4-4 8-4 12 0 5 2 9 5 13 3 3 7 5 12 6h13c6 0 12-2 16-6l26-17 4-4zm152 0c-2-2-3-6-3-9 0-4 1-7 3-9l48-75c5-7 5-16 2-24s-11-14-19-16l-7-1c-6 0-12 2-16 6l-80 124c-3 4-4 8-4 12 0 5 2 9 5 13 3 3 7 5 12 6h13c6 0 12-2 16-6l26-17 4-4zm152 0c-2-2-3-6-3-9 0-4 1-7 3-9l48-75c5-7 5-16 2-24s-11-14-19-16l-7-1c-6 0-12 2-16 6l-80 124c-3 4-4 8-4 12 0 5 2 9 5 13 3 3 7 5 12 6h13c6 0 12-2 16-6l26-17 4-4z"/>
+            </svg>
+            Buy me a coffee
+          </a>
+        </div>
+
+        <p class="cta-secondary">
+          Found a bug? <a href="https://github.com/utajum/claude-usage/issues" target="_blank" rel="noopener noreferrer">Open an issue</a>
+        </p>
+      </div>
+
+      <!-- Decorative gauge element -->
+      <div class="cta-decoration" aria-hidden="true">
+        <svg class="gauge-bg" viewBox="0 0 200 100">
+          <path 
+            d="M 20 80 A 60 60 0 0 1 180 80"
+            fill="none"
+            stroke="rgba(232, 160, 72, 0.1)"
+            stroke-width="8"
+            stroke-linecap="round"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background: var(--bg-deep);
+    padding: 3rem 0 5rem;
+  }
+
+  .cta-card {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .cta-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+
+  .cta-content > p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 0 0 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg-deep);
+    box-shadow: 0 4px 15px rgba(232, 160, 72, 0.3);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232, 160, 72, 0.4);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text-primary);
+    border: 2px solid var(--border-dark);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232, 160, 72, 0.05);
+  }
+
+  .cta-secondary {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .cta-secondary a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .cta-secondary a:hover {
+    text-decoration: underline;
+  }
+
+  .cta-decoration {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 100px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .gauge-bg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 640px) {
+    .cta-card {
+      padding: 2rem 1.5rem;
+    }
+
+    .cta-content h2 {
+      font-size: 1.5rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 280px;
+      justify-content: center;
+    }
+  }
+</style>

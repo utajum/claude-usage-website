@@ -1,0 +1,246 @@
+<!-- Usage: animated terminal cards showing install commands for each platform -->
+<section class="section">
+  <div class="container">
+    <h2>Installation</h2>
+    <p class="section-desc">One command to install. The app will auto-start and appear in your system tray. Hover to see your token usage.</p>
+
+    <div class="usage-grid">
+      <div class="usage-card">
+        <div class="usage-desc">
+          <h3>Linux</h3>
+          <p>One-liner installer for Linux x64 and ARM64. Requires curl.</p>
+        </div>
+        <div class="usage-terminal" data-command="curl -sL https://raw.githubusercontent.com/utajum/" data-comment2="claude-usage/master/scripts/install-linux.sh | bash">
+          <div class="ut-bar"><span class="ut-dots"><i></i><i></i><i></i></span></div>
+          <div class="ut-body"><code><span class="prompt">$ </span><span class="typed-cmd"></span><span class="typed-comment"></span><span class="ut-cursor">_</span></code></div>
+        </div>
+      </div>
+
+      <div class="usage-card">
+        <div class="usage-desc">
+          <h3>macOS</h3>
+          <p>Download the DMG or binary. Drag to Applications folder.</p>
+        </div>
+        <div class="usage-terminal" data-command="# Download from GitHub releases" data-comment="# Or build from source">
+          <div class="ut-bar"><span class="ut-dots"><i></i><i></i><i></i></span></div>
+          <div class="ut-body"><code><span class="prompt">$ </span><span class="typed-cmd"></span><span class="typed-comment"></span><span class="ut-cursor">_</span></code></div>
+        </div>
+      </div>
+
+      <div class="usage-card">
+        <div class="usage-desc">
+          <h3>Windows</h3>
+          <p>PowerShell installer script for Windows x64.</p>
+        </div>
+        <div class="usage-terminal" data-command="# Download .ps1 from GitHub" data-comment="# Or run install-windows.ps1">
+          <div class="ut-bar"><span class="ut-dots"><i></i><i></i><i></i></span></div>
+          <div class="ut-body"><code><span class="prompt">> </span><span class="typed-cmd"></span><span class="typed-comment"></span><span class="ut-cursor">_</span></code></div>
+        </div>
+      </div>
+
+      <div class="usage-card">
+        <div class="usage-desc">
+          <h3>Build from source</h3>
+          <p>Requires Go 1.24+. Clone and build locally.</p>
+        </div>
+        <div class="usage-terminal" data-command="make build" data-comment="# Build for current platform">
+          <div class="ut-bar"><span class="ut-dots"><i></i><i></i><i></i></span></div>
+          <div class="ut-body"><code><span class="prompt">$ </span><span class="typed-cmd"></span><span class="typed-comment"></span><span class="ut-cursor">_</span></code></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Usage terminal typing animations
+  function typeCommand(el: HTMLElement, command: string, comment: string) {
+    const cmdSpan = el.querySelector('.typed-cmd') as HTMLElement;
+    const commentSpan = el.querySelector('.typed-comment') as HTMLElement;
+    const cursorSpan = el.querySelector('.ut-cursor') as HTMLElement;
+    if (!cmdSpan || !cursorSpan) return;
+
+    let i = 0;
+    let j = 0;
+    cursorSpan.classList.remove('blink');
+
+    function typeComment() {
+      if (!comment || !commentSpan) {
+        cursorSpan.classList.add('blink');
+        return;
+      }
+      if (j < comment.length) {
+        commentSpan.textContent = comment.slice(0, j + 1);
+        j++;
+        setTimeout(typeComment, 25 + Math.random() * 20);
+      } else {
+        cursorSpan.classList.add('blink');
+      }
+    }
+
+    function tick() {
+      if (i < command.length) {
+        cmdSpan.textContent = command.slice(0, i + 1);
+        i++;
+        setTimeout(tick, 35 + Math.random() * 40);
+      } else {
+        if (comment) {
+          cmdSpan.textContent = command + '  ';
+          setTimeout(typeComment, 300);
+        } else {
+          cursorSpan.classList.add('blink');
+        }
+      }
+    }
+    tick();
+  }
+
+  const usageTerminals = document.querySelectorAll('.usage-terminal');
+  const usageObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        usageObserver.unobserve(entry.target);
+        const el = entry.target as HTMLElement;
+        const command = el.dataset.command || '';
+        const comment = el.dataset.comment || '';
+        const allTerminals = Array.from(usageTerminals);
+        const idx = allTerminals.indexOf(el);
+        setTimeout(() => {
+          typeCommand(el, command, comment);
+        }, idx * 150);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  usageTerminals.forEach((t) => usageObserver.observe(t));
+</script>
+
+<style>
+  .inline-code {
+    font-size: 0.9rem;
+    background: rgba(0, 255, 255, 0.1);
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    color: var(--neon-cyan);
+    font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  }
+
+  .usage-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .usage-card:nth-child(3):last-child,
+  .usage-card:nth-child(1):nth-last-child(3) ~ .usage-card:nth-child(3) {
+    grid-column: 1 / -1;
+    max-width: 50%;
+    margin: 0 auto;
+  }
+
+  .usage-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-dark);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .usage-card:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.08);
+  }
+
+  .usage-desc h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.25rem;
+  }
+
+  .usage-desc p {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  .usage-terminal {
+    border-radius: 6px;
+    overflow: hidden;
+    background: #0a0d12;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .ut-bar {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0.75rem;
+    background: #161b22;
+  }
+
+  .ut-dots {
+    display: flex;
+    gap: 5px;
+  }
+
+  .ut-dots i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .ut-dots i:nth-child(1) { background: #ff5f57; }
+  .ut-dots i:nth-child(2) { background: #febc2e; }
+  .ut-dots i:nth-child(3) { background: #28c840; }
+
+  .ut-body {
+    padding: 0.75rem 1rem;
+  }
+
+  .ut-body code {
+    font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .prompt {
+    color: var(--neon-green);
+    margin-right: 0.5rem;
+    user-select: none;
+  }
+
+  .ut-cursor {
+    color: var(--neon-green);
+    font-weight: 400;
+  }
+
+  .ut-cursor.blink {
+    animation: blink-fade 1s step-end infinite;
+  }
+
+  @keyframes blink-fade {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .typed-cmd {
+    color: var(--neon-cyan);
+  }
+
+  .typed-comment {
+    color: var(--text-dim);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 820px) {
+    .usage-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
