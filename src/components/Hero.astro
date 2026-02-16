@@ -83,8 +83,8 @@ import screenshotWin from '../assets/images/screenshot-win.png';
       <script>
         const chip = document.querySelector('.chip-container') as HTMLElement;
         if (chip) {
-          const maxDist = 250;   // radius of influence (px)
-          const maxPush = 60;    // max displacement (px)
+          const maxDist = 800;   // radius of influence (px) - most of the viewport!
+          const maxPush = 500;   // max displacement (px) - extreme escape distance!
           const speedUp = 4;     // float animation speed multiplier on hover
 
           let ax = 0, ay = 0;   // current animated offset
