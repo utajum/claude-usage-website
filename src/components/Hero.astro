@@ -226,6 +226,8 @@ import cashOnFire from '../assets/images/cash on fire.jpg';
 
 <script>
   let assetData: { name: string; count: number }[] = [];
+  let groupedData: { family: string; total: number; percentage: number; items: { name: string; count: number }[] }[] = [];
+  let grandTotal = 0;
 
   (async () => {
     const row = document.getElementById('statsRow');
@@ -272,6 +274,39 @@ import cashOnFire from '../assets/images/cash on fire.jpg';
         .map(([name, count]) => ({ name, count }))
         .sort((a, b) => b.count - a.count);
 
+      grandTotal = totalDownloads;
+
+      // Group into platform families
+      const familyMap: Record<string, { name: string; count: number }[]> = {};
+      for (const asset of assetData) {
+        let family: string;
+        if (asset.name.toLowerCase().includes('macos') || asset.name.toLowerCase().includes('darwin')) {
+          family = 'macOS';
+        } else if (asset.name.toLowerCase().includes('windows')) {
+          family = 'Windows';
+        } else if (asset.name.toLowerCase().includes('linux')) {
+          family = 'Linux';
+        } else {
+          family = 'Other';
+        }
+        if (!familyMap[family]) familyMap[family] = [];
+        familyMap[family].push(asset);
+      }
+
+      const familyOrder = ['macOS', 'Windows', 'Linux', 'Other'];
+      groupedData = familyOrder
+        .filter((f) => familyMap[f])
+        .map((family) => {
+          const items = familyMap[family];
+          const total = items.reduce((s, i) => s + i.count, 0);
+          return {
+            family,
+            total,
+            percentage: grandTotal > 0 ? Math.round((total / grandTotal) * 100) : 0,
+            items,
+          };
+        });
+
       const latestVersion = releases.length > 0 ? releases[0].tag_name : null;
       const stars = repo.stargazers_count;
 
@@ -306,6 +341,20 @@ import cashOnFire from '../assets/images/cash on fire.jpg';
       if (verEl && latestVersion) verEl.textContent = latestVersion;
       if (starsEl) animateValue(starsEl, stars, 1200);
 
+      function getFamilyIcon(family: string): string {
+        const lower = family.toLowerCase();
+        if (lower === 'macos') {
+          return '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
+        }
+        if (lower === 'windows') {
+          return '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 12V6.75l6-1.32v6.48L3 12m17-9v8.75l-10 .15V5.21L20 3M3 13l6 .09v6.81l-6-1.15V13m17 .25V22l-10-1.91V13.1l10 .15z"/></svg>';
+        }
+        if (lower === 'linux') {
+          return '<span style="font-size: 1.4rem; line-height: 1;">🐧</span>';
+        }
+        return '<span style="font-size: 1.4rem; line-height: 1;">📦</span>';
+      }
+
       // Modal functionality
       const modal = document.getElementById('downloadsModal');
       const modalClose = document.getElementById('modalClose');
@@ -314,25 +363,71 @@ import cashOnFire from '../assets/images/cash on fire.jpg';
 
       if (downloadsItem && modal && modalClose && downloadsList) {
         downloadsItem.addEventListener('click', () => {
-          downloadsList.innerHTML = assetData
-            .map(
-              (asset) => `
-              <div class="modal-item">
-                <div class="modal-item-os" style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
-                  ${getOsIcon(asset.name)}
-                  ${asset.name}
+          // Build grand total section + grouped cards
+          const grandTotalHtml = `
+            <div class="modal-grand-total">
+              <div class="modal-grand-total-value" data-count="${grandTotal}">0</div>
+              <div class="modal-grand-total-label">Total Downloads</div>
+            </div>
+          `;
+
+          const cardsHtml = groupedData
+            .map((group, idx) => {
+              const subItemsHtml = group.items.length > 1
+                ? `<div class="modal-card-items">
+                    ${group.items.map((item) => `
+                      <div class="modal-card-subitem">
+                        <span class="modal-card-subitem-name">${item.name.replace(group.family, '').replace('(', '').replace(')', '').trim() || item.name}</span>
+                        <span class="modal-card-subitem-count" data-count="${item.count}">0</span>
+                      </div>
+                    `).join('')}
+                  </div>`
+                : '';
+
+              return `
+                <div class="modal-card" style="animation-delay: ${idx * 100}ms;">
+                  <div class="modal-card-header">
+                    <div class="modal-card-os">
+                      ${getFamilyIcon(group.family)}
+                      <span>${group.family}</span>
+                    </div>
+                    <div class="modal-card-count" data-count="${group.total}">0</div>
+                  </div>
+                  <div class="modal-card-progress">
+                    <div class="modal-card-bar" data-percentage="${group.percentage}" style="width: 0%"></div>
+                  </div>
+                  <div class="modal-card-percentage">${group.percentage}% of all downloads</div>
+                  ${subItemsHtml}
                 </div>
-                <div class="modal-item-count" data-count="${asset.count}">0</div>
-              </div>
-            `
-            )
+              `;
+            })
             .join('');
+
+          downloadsList.innerHTML = grandTotalHtml + '<div class="modal-cards">' + cardsHtml + '</div>';
           modal.style.display = 'flex';
 
-          // Animate counts
-          document.querySelectorAll('.modal-item-count').forEach((el) => {
+          // Animate grand total
+          const grandTotalEl = downloadsList.querySelector('.modal-grand-total-value') as HTMLElement;
+          if (grandTotalEl) animateCount(grandTotalEl, grandTotal, 1000);
+
+          // Animate card counts
+          downloadsList.querySelectorAll('.modal-card-count').forEach((el) => {
             const target = parseInt((el as HTMLElement).dataset.count || '0', 10);
             animateCount(el as HTMLElement, target, 800);
+          });
+
+          // Animate sub-item counts
+          downloadsList.querySelectorAll('.modal-card-subitem-count').forEach((el) => {
+            const target = parseInt((el as HTMLElement).dataset.count || '0', 10);
+            animateCount(el as HTMLElement, target, 800);
+          });
+
+          // Animate progress bars
+          requestAnimationFrame(() => {
+            downloadsList.querySelectorAll('.modal-card-bar').forEach((el) => {
+              const pct = (el as HTMLElement).dataset.percentage || '0';
+              (el as HTMLElement).style.width = pct + '%';
+            });
           });
         });
 
@@ -658,8 +753,10 @@ import cashOnFire from '../assets/images/cash on fire.jpg';
     padding: 2rem;
     max-width: 480px;
     width: 90%;
-    max-height: 80vh;
+    max-height: 85vh;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
     position: relative;
     box-shadow:
       0 0 60px rgba(180, 0, 255, 0.3),
@@ -693,8 +790,8 @@ import cashOnFire from '../assets/images/cash on fire.jpg';
   }
 
   .modal h2 {
-    margin: 0 0 1.5rem;
-    font-size: 1.75rem;
+    margin: 0 0 0.75rem;
+    font-size: 1.5rem;
     color: #c080ff;
     text-align: center;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
@@ -714,6 +811,7 @@ import cashOnFire from '../assets/images/cash on fire.jpg';
     padding: 0.25rem 0.5rem;
     line-height: 1;
     transition: color 0.2s;
+    z-index: 1;
   }
 
   .modal-close:hover {
@@ -723,66 +821,169 @@ import cashOnFire from '../assets/images/cash on fire.jpg';
   .modal-list {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    padding-right: 0.25rem;
+  }
+
+  /* ── Dynamic modal content (injected via JS, needs :global) ── */
+
+  /* Grand Total */
+  .modal-list :global(.modal-grand-total) {
+    text-align: center;
+    padding: 1.25rem 1rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(180, 0, 255, 0.15);
+  }
+
+  .modal-list :global(.modal-grand-total-value) {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #c080ff;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 20px rgba(192, 128, 255, 0.4);
+    line-height: 1.1;
+  }
+
+  .modal-list :global(.modal-grand-total-label) {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    opacity: 0.7;
+    margin-top: 0.35rem;
+  }
+
+  /* Cards Container */
+  .modal-list :global(.modal-cards) {
+    display: flex;
+    flex-direction: column;
     gap: 0.75rem;
   }
 
-  .modal-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 1.25rem;
-    background: linear-gradient(135deg, rgba(180, 0, 255, 0.08) 0%, rgba(0, 255, 255, 0.04) 100%);
-    border-radius: 12px;
+  /* Platform Card */
+  .modal-list :global(.modal-card) {
+    background: linear-gradient(135deg, rgba(180, 0, 255, 0.06) 0%, rgba(0, 255, 255, 0.03) 100%);
     border: 1px solid rgba(180, 0, 255, 0.2);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
     transition: all 0.3s ease;
-    animation: modalItemFadeIn 0.4s ease-out forwards;
+    animation: modalCardFadeIn 0.4s ease-out forwards;
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
 
-  .modal-item:nth-child(1) { animation-delay: 0ms; }
-  .modal-item:nth-child(2) { animation-delay: 80ms; }
-  .modal-item:nth-child(3) { animation-delay: 160ms; }
-  .modal-item:nth-child(4) { animation-delay: 240ms; }
-  .modal-item:nth-child(5) { animation-delay: 320ms; }
-
-  @keyframes modalItemFadeIn {
+  @keyframes modalCardFadeIn {
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
 
-  .modal-item:hover {
-    transform: translateY(-2px);
-    border-color: rgba(180, 0, 255, 0.5);
+  .modal-list :global(.modal-card:hover) {
+    border-color: rgba(180, 0, 255, 0.45);
+    background: linear-gradient(135deg, rgba(180, 0, 255, 0.1) 0%, rgba(0, 255, 255, 0.05) 100%);
     box-shadow:
-      0 4px 20px rgba(180, 0, 255, 0.2),
-      0 0 30px rgba(0, 255, 255, 0.1);
+      0 4px 24px rgba(180, 0, 255, 0.15),
+      0 0 30px rgba(0, 255, 255, 0.08);
   }
 
-  .modal-item-os {
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.5rem;
+  /* Card Header */
+  .modal-list :global(.modal-card-header) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.65rem;
+  }
+
+  .modal-list :global(.modal-card-os) {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--text-primary);
     letter-spacing: 0.02em;
   }
 
-  .modal-item-count {
+  .modal-list :global(.modal-card-os svg) {
+    flex-shrink: 0;
+  }
+
+  .modal-list :global(.modal-card-count) {
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     font-weight: 700;
-    color: #00ffff;
-    text-shadow:
-      0 0 10px rgba(0, 255, 255, 0.5),
-      0 0 20px rgba(0, 255, 255, 0.3);
-    min-width: 80px;
-    text-align: right;
-    letter-spacing: 0.05em;
+    color: #c080ff;
+    text-shadow: 0 0 12px rgba(192, 128, 255, 0.35);
+    letter-spacing: 0.03em;
+  }
+
+  /* Progress Bar */
+  .modal-list :global(.modal-card-progress) {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.4rem;
+  }
+
+  .modal-list :global(.modal-card-bar) {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, rgba(180, 0, 255, 0.7), rgba(0, 255, 255, 0.7));
+    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 6px rgba(180, 0, 255, 0.3);
+  }
+
+  /* Percentage Label */
+  .modal-list :global(.modal-card-percentage) {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    opacity: 0.55;
+    letter-spacing: 0.04em;
+  }
+
+  /* Sub-items (Linux breakdown) */
+  .modal-list :global(.modal-card-items) {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(180, 0, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .modal-list :global(.modal-card-subitem) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.35rem 0.5rem;
+    border-radius: 8px;
+    background: rgba(180, 0, 255, 0.04);
+  }
+
+  .modal-list :global(.modal-card-subitem-name) {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    opacity: 0.8;
+    letter-spacing: 0.02em;
+  }
+
+  .modal-list :global(.modal-card-subitem-count) {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(192, 128, 255, 0.75);
+    letter-spacing: 0.03em;
   }
 
   /* ── Screenshots ── */
