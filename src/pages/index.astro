@@ -6,10 +6,105 @@ import Install from '../components/Install.astro';
 import Features from '../components/Features.astro';
 import CallToAction from '../components/CallToAction.astro';
 import Footer from '../components/Footer.astro';
+
+// ── Server-side GitHub data fetching ──
+interface PlatformGroup {
+  family: string;
+  total: number;
+  percentage: number;
+  items: { name: string; count: number }[];
+}
+
+let totalDownloads = 0;
+let latestVersion: string | null = null;
+let stars = 0;
+let groupedData: PlatformGroup[] = [];
+let fetchOk = false;
+
+const ghHeaders: Record<string, string> = { Accept: 'application/vnd.github.v3+json' };
+const ghToken = import.meta.env.GITHUB_TOKEN;
+if (ghToken) ghHeaders.Authorization = `token ${ghToken}`;
+
+try {
+  const [releasesRes, repoRes] = await Promise.all([
+    fetch('https://api.github.com/repos/utajum/claude-usage/releases', { headers: ghHeaders }),
+    fetch('https://api.github.com/repos/utajum/claude-usage', { headers: ghHeaders }),
+  ]);
+
+  if (releasesRes.ok && repoRes.ok) {
+    const releases = await releasesRes.json();
+    const repo = await repoRes.json();
+
+    const assetTotals: Record<string, number> = {};
+
+    function getAssetType(name: string): string {
+      const lower = name.toLowerCase();
+      if (lower.includes('windows') || lower.includes('.exe')) return 'Windows';
+      if (lower.includes('darwin') || lower.includes('macos') || lower.includes('.dmg')) return 'macOS';
+      if (lower.includes('linux')) {
+        if (lower.includes('arm64') || lower.includes('aarch64')) return 'Linux (ARM64)';
+        return 'Linux (x86_64)';
+      }
+      return name;
+    }
+
+    for (const release of releases) {
+      for (const asset of (release as any).assets || []) {
+        totalDownloads += asset.download_count;
+        const type = getAssetType(asset.name);
+        assetTotals[type] = (assetTotals[type] || 0) + asset.download_count;
+      }
+    }
+
+    const assetData = Object.entries(assetTotals)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+
+    // Group into platform families
+    const familyMap: Record<string, { name: string; count: number }[]> = {};
+    for (const asset of assetData) {
+      let family: string;
+      if (asset.name.toLowerCase().includes('macos') || asset.name.toLowerCase().includes('darwin')) {
+        family = 'macOS';
+      } else if (asset.name.toLowerCase().includes('windows')) {
+        family = 'Windows';
+      } else if (asset.name.toLowerCase().includes('linux')) {
+        family = 'Linux';
+      } else {
+        family = 'Other';
+      }
+      if (!familyMap[family]) familyMap[family] = [];
+      familyMap[family].push(asset);
+    }
+
+    const familyOrder = ['macOS', 'Windows', 'Linux', 'Other'];
+    groupedData = familyOrder
+      .filter((f) => familyMap[f])
+      .map((family) => {
+        const items = familyMap[family]!;
+        const total = items.reduce((s, i) => s + i.count, 0);
+        return {
+          family,
+          total,
+          percentage: totalDownloads > 0 ? Math.round((total / totalDownloads) * 100) : 0,
+          items,
+        };
+      });
+
+    latestVersion = releases.length > 0 ? releases[0].tag_name : null;
+    stars = repo.stargazers_count;
+    fetchOk = true;
+  }
+} catch {
+  // Silently fail
+}
+
+// CDN cache: 5 minutes
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
 ---
 
 <Layout>
-  <Hero />
+  <Hero fetchOk={fetchOk} totalDownloads={totalDownloads} latestVersion={latestVersion} stars={stars} groupedData={groupedData} />
   <HowItWorks />
   <Install />
   <Features />

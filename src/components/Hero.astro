@@ -3,6 +3,43 @@ import { Image } from 'astro:assets';
 import screenshotLinux from '../assets/images/screenshot-linux.png';
 import screenshotWin from '../assets/images/screenshot-win.png';
 import cashOnFire from '../assets/images/cash on fire.jpg';
+
+interface PlatformGroup {
+  family: string;
+  total: number;
+  percentage: number;
+  items: { name: string; count: number }[];
+}
+
+interface Props {
+  fetchOk: boolean;
+  totalDownloads: number;
+  latestVersion: string | null;
+  stars: number;
+  groupedData: PlatformGroup[];
+}
+
+const { fetchOk, totalDownloads, latestVersion, stars, groupedData } = Astro.props;
+
+function formatNumber(n: number): string {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (n >= 1_000) return (n / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
+  return n.toLocaleString();
+}
+
+function getFamilyIcon(family: string): string {
+  const lower = family.toLowerCase();
+  if (lower === 'macos') {
+    return '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
+  }
+  if (lower === 'windows') {
+    return '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 12V6.75l6-1.32v6.48L3 12m17-9v8.75l-10 .15V5.21L20 3M3 13l6 .09v6.81l-6-1.15V13m17 .25V22l-10-1.91V13.1l10 .15z"/></svg>';
+  }
+  if (lower === 'linux') {
+    return '<span style="font-size: 1.4rem; line-height: 1;">🐧</span>';
+  }
+  return '<span style="font-size: 1.4rem; line-height: 1;">📦</span>';
+}
 ---
 
 <!-- Hero: Pixel-accurate systray chip icon from the Go source code -->
@@ -197,284 +234,161 @@ import cashOnFire from '../assets/images/cash on fire.jpg';
       </div>
 
       <!-- Stats -->
-      <div class="stats-row" id="statsRow" style="display:none;">
-        <div class="stat-item" id="statDownloadsItem" style="cursor: pointer;">
-          <span class="stat-value" id="statDownloads">--</span>
-          <span class="stat-label">Total Downloads</span>
+      {fetchOk && (
+        <div class="stats-row" id="statsRow">
+          <div class="stat-item" id="statDownloadsItem" style="cursor: pointer;">
+            <span class="stat-value" id="statDownloads" data-count={totalDownloads}>{formatNumber(totalDownloads)}</span>
+            <span class="stat-label">Total Downloads</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="statVersion">{latestVersion || '--'}</span>
+            <span class="stat-label">Latest Version</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="statStars" data-count={stars}>{formatNumber(stars)}</span>
+            <span class="stat-label">GitHub Stars</span>
+          </div>
         </div>
-        <div class="stat-item">
-          <span class="stat-value" id="statVersion">--</span>
-          <span class="stat-label">Latest Version</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value" id="statStars">--</span>
-          <span class="stat-label">GitHub Stars</span>
-        </div>
-      </div>
+      )}
 
-      <!-- Downloads Modal -->
-      <div class="modal-overlay" id="downloadsModal" style="display: none;">
-        <div class="modal">
-          <button class="modal-close" id="modalClose">&times;</button>
-          <h2>Download Stats</h2>
-          <div class="modal-list" id="downloadsList"></div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
 
-<script>
-  let assetData: { name: string; count: number }[] = [];
-  let groupedData: { family: string; total: number; percentage: number; items: { name: string; count: number }[] }[] = [];
-  let grandTotal = 0;
-
-  (async () => {
-    const row = document.getElementById('statsRow');
-    if (!row) return;
-
-    try {
-      const [releasesRes, repoRes] = await Promise.all([
-        fetch('https://api.github.com/repos/utajum/claude-usage/releases', {
-          headers: { Accept: 'application/vnd.github.v3+json' },
-        }),
-        fetch('https://api.github.com/repos/utajum/claude-usage', {
-          headers: { Accept: 'application/vnd.github.v3+json' },
-        }),
-      ]);
-
-      if (!releasesRes.ok || !repoRes.ok) return;
-
-      const releases = await releasesRes.json();
-      const repo = await repoRes.json();
-
-      let totalDownloads = 0;
-      const assetTotals: Record<string, number> = {};
-
-      function getAssetType(name: string): string {
-        const lower = name.toLowerCase();
-        if (lower.includes('windows') || lower.includes('.exe')) return 'Windows';
-        if (lower.includes('darwin') || lower.includes('macos') || lower.includes('.dmg')) return 'macOS';
-        if (lower.includes('linux')) {
-          if (lower.includes('arm64') || lower.includes('aarch64')) return 'Linux (ARM64)';
-          return 'Linux (x86_64)';
-        }
-        return name;
-      }
-
-      for (const release of releases) {
-        for (const asset of release.assets || []) {
-          totalDownloads += asset.download_count;
-          const type = getAssetType(asset.name);
-          assetTotals[type] = (assetTotals[type] || 0) + asset.download_count;
-        }
-      }
-
-      assetData = Object.entries(assetTotals)
-        .map(([name, count]) => ({ name, count }))
-        .sort((a, b) => b.count - a.count);
-
-      grandTotal = totalDownloads;
-
-      // Group into platform families
-      const familyMap: Record<string, { name: string; count: number }[]> = {};
-      for (const asset of assetData) {
-        let family: string;
-        if (asset.name.toLowerCase().includes('macos') || asset.name.toLowerCase().includes('darwin')) {
-          family = 'macOS';
-        } else if (asset.name.toLowerCase().includes('windows')) {
-          family = 'Windows';
-        } else if (asset.name.toLowerCase().includes('linux')) {
-          family = 'Linux';
-        } else {
-          family = 'Other';
-        }
-        if (!familyMap[family]) familyMap[family] = [];
-        familyMap[family].push(asset);
-      }
-
-      const familyOrder = ['macOS', 'Windows', 'Linux', 'Other'];
-      groupedData = familyOrder
-        .filter((f) => familyMap[f])
-        .map((family) => {
-          const items = familyMap[family];
-          const total = items.reduce((s, i) => s + i.count, 0);
-          return {
-            family,
-            total,
-            percentage: grandTotal > 0 ? Math.round((total / grandTotal) * 100) : 0,
-            items,
-          };
-        });
-
-      const latestVersion = releases.length > 0 ? releases[0].tag_name : null;
-      const stars = repo.stargazers_count;
-
-      function formatNumber(n: number): string {
-        if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
-        if (n >= 1_000) return (n / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
-        return n.toLocaleString();
-      }
-
-      function animateValue(el: HTMLElement, end: number, duration: number) {
-        const startTime = performance.now();
-        const formatted = formatNumber(end);
-
-        function update(now: number) {
-          const elapsed = now - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const current = Math.floor(eased * end);
-          el.textContent = progress < 1 ? formatNumber(current) : formatted;
-          if (progress < 1) requestAnimationFrame(update);
-        }
-        requestAnimationFrame(update);
-      }
-
-      const dlEl = document.getElementById('statDownloads');
-      const verEl = document.getElementById('statVersion');
-      const starsEl = document.getElementById('statStars');
-
-      row.style.display = '';
-
-      if (dlEl) animateValue(dlEl, totalDownloads, 1200);
-      if (verEl && latestVersion) verEl.textContent = latestVersion;
-      if (starsEl) animateValue(starsEl, stars, 1200);
-
-      function getFamilyIcon(family: string): string {
-        const lower = family.toLowerCase();
-        if (lower === 'macos') {
-          return '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
-        }
-        if (lower === 'windows') {
-          return '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 12V6.75l6-1.32v6.48L3 12m17-9v8.75l-10 .15V5.21L20 3M3 13l6 .09v6.81l-6-1.15V13m17 .25V22l-10-1.91V13.1l10 .15z"/></svg>';
-        }
-        if (lower === 'linux') {
-          return '<span style="font-size: 1.4rem; line-height: 1;">🐧</span>';
-        }
-        return '<span style="font-size: 1.4rem; line-height: 1;">📦</span>';
-      }
-
-      // Modal functionality
-      const modal = document.getElementById('downloadsModal');
-      const modalClose = document.getElementById('modalClose');
-      const downloadsList = document.getElementById('downloadsList');
-      const downloadsItem = document.getElementById('statDownloadsItem');
-
-      if (downloadsItem && modal && modalClose && downloadsList) {
-        downloadsItem.addEventListener('click', () => {
-          // Build grand total section + grouped cards
-          const grandTotalHtml = `
-            <div class="modal-grand-total">
-              <div class="modal-grand-total-value" data-count="${grandTotal}">0</div>
-              <div class="modal-grand-total-label">Total Downloads</div>
-            </div>
-          `;
-
-          const cardsHtml = groupedData
-            .map((group, idx) => {
-              const subItemsHtml = group.items.length > 1
-                ? `<div class="modal-card-items">
-                    ${group.items.map((item) => `
-                      <div class="modal-card-subitem">
-                        <span class="modal-card-subitem-name">${item.name.replace(group.family, '').replace('(', '').replace(')', '').trim() || item.name}</span>
-                        <span class="modal-card-subitem-count" data-count="${item.count}">0</span>
-                      </div>
-                    `).join('')}
-                  </div>`
-                : '';
-
-              return `
-                <div class="modal-card" style="animation-delay: ${idx * 100}ms;">
-                  <div class="modal-card-header">
-                    <div class="modal-card-os">
-                      ${getFamilyIcon(group.family)}
-                      <span>${group.family}</span>
-                    </div>
-                    <div class="modal-card-count" data-count="${group.total}">0</div>
-                  </div>
-                  <div class="modal-card-progress">
-                    <div class="modal-card-bar" data-percentage="${group.percentage}" style="width: 0%"></div>
-                  </div>
-                  <div class="modal-card-percentage">${group.percentage}% of all downloads</div>
-                  ${subItemsHtml}
+<!-- Downloads Modal (outside hero to avoid overflow:hidden clipping) -->
+{fetchOk && (
+  <div class="modal-overlay" id="downloadsModal" style="display: none;">
+    <div class="modal">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <h2>Download Stats</h2>
+      <div class="modal-list" id="downloadsList">
+        <div class="modal-grand-total">
+          <div class="modal-grand-total-value" data-count={totalDownloads}>0</div>
+          <div class="modal-grand-total-label">Total Downloads</div>
+        </div>
+        <div class="modal-cards">
+          {groupedData.map((group, idx) => (
+            <div class="modal-card" style={`animation-delay: ${idx * 100}ms;`}>
+              <div class="modal-card-header">
+                <div class="modal-card-os">
+                  <Fragment set:html={getFamilyIcon(group.family)} />
+                  <span>{group.family}</span>
                 </div>
-              `;
-            })
-            .join('');
+                <div class="modal-card-count" data-count={group.total}>0</div>
+              </div>
+              <div class="modal-card-progress">
+                <div class="modal-card-bar" data-percentage={group.percentage} style="width: 0%"></div>
+              </div>
+              <div class="modal-card-percentage">{group.percentage}% of all downloads</div>
+              {group.items.length > 1 && (
+                <div class="modal-card-items">
+                  {group.items.map((item) => (
+                    <div class="modal-card-subitem">
+                      <span class="modal-card-subitem-name">{item.name.replace(group.family, '').replace('(', '').replace(')', '').trim() || item.name}</span>
+                      <span class="modal-card-subitem-count" data-count={item.count}>0</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
-          downloadsList.innerHTML = grandTotalHtml + '<div class="modal-cards">' + cardsHtml + '</div>';
-          modal.style.display = 'flex';
+<script>
+  // ── Stats animations + modal toggle ──
+  function formatNumber(n: number): string {
+    if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (n >= 1_000) return (n / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
+    return n.toLocaleString();
+  }
 
-          // Animate grand total
-          const grandTotalEl = downloadsList.querySelector('.modal-grand-total-value') as HTMLElement;
-          if (grandTotalEl) animateCount(grandTotalEl, grandTotal, 1000);
+  function animateValue(el: HTMLElement, end: number, duration: number) {
+    const startTime = performance.now();
+    const formatted = formatNumber(end);
 
-          // Animate card counts
-          downloadsList.querySelectorAll('.modal-card-count').forEach((el) => {
-            const target = parseInt((el as HTMLElement).dataset.count || '0', 10);
-            animateCount(el as HTMLElement, target, 800);
-          });
-
-          // Animate sub-item counts
-          downloadsList.querySelectorAll('.modal-card-subitem-count').forEach((el) => {
-            const target = parseInt((el as HTMLElement).dataset.count || '0', 10);
-            animateCount(el as HTMLElement, target, 800);
-          });
-
-          // Animate progress bars
-          requestAnimationFrame(() => {
-            downloadsList.querySelectorAll('.modal-card-bar').forEach((el) => {
-              const pct = (el as HTMLElement).dataset.percentage || '0';
-              (el as HTMLElement).style.width = pct + '%';
-            });
-          });
-        });
-
-        modalClose.addEventListener('click', () => {
-          modal.style.display = 'none';
-        });
-
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal) {
-            modal.style.display = 'none';
-          }
-        });
-      }
-
-      function animateCount(el: HTMLElement, end: number, duration: number) {
-        const startTime = performance.now();
-        const formatted = formatNumber(end);
-
-        function update(now: number) {
-          const elapsed = now - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const current = Math.floor(eased * end);
-          el.textContent = progress < 1 ? formatNumber(current) : formatted;
-          if (progress < 1) requestAnimationFrame(update);
-        }
-        requestAnimationFrame(update);
-      }
-
-      function getOsIcon(os: string): string {
-        const lower = os.toLowerCase();
-        if (lower.includes('windows')) {
-          return '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 12V6.75l6-1.32v6.48L3 12m17-9v8.75l-10 .15V5.21L20 3M3 13l6 .09v6.81l-6-1.15V13m17 .25V22l-10-1.91V13.1l10 .15z"/></svg>';
-        }
-        if (lower.includes('macos') || lower.includes('darwin')) {
-          return '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
-        }
-        if (lower.includes('linux')) {
-          return '🐧';
-        }
-        return '📦';
-      }
-
-    } catch {
-      // Silently fail — stats row stays hidden
+    function update(now: number) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * end);
+      el.textContent = progress < 1 ? formatNumber(current) : formatted;
+      if (progress < 1) requestAnimationFrame(update);
     }
-  })();
+    requestAnimationFrame(update);
+  }
+
+  // Animate stats row counters on load
+  const dlEl = document.getElementById('statDownloads');
+  const starsEl = document.getElementById('statStars');
+
+  if (dlEl?.dataset.count) animateValue(dlEl, parseInt(dlEl.dataset.count, 10), 1200);
+  if (starsEl?.dataset.count) animateValue(starsEl, parseInt(starsEl.dataset.count, 10), 1200);
+
+  // Modal open/close
+  const modal = document.getElementById('downloadsModal');
+  const modalClose = document.getElementById('modalClose');
+  const downloadsList = document.getElementById('downloadsList');
+  const downloadsItem = document.getElementById('statDownloadsItem');
+
+  if (downloadsItem && modal && modalClose && downloadsList) {
+    downloadsItem.addEventListener('click', () => {
+      modal.style.display = 'flex';
+
+      // Reset and animate grand total
+      const grandTotalEl = downloadsList.querySelector('.modal-grand-total-value') as HTMLElement;
+      if (grandTotalEl?.dataset.count) {
+        grandTotalEl.textContent = '0';
+        animateValue(grandTotalEl, parseInt(grandTotalEl.dataset.count, 10), 1000);
+      }
+
+      // Reset and animate card counts
+      downloadsList.querySelectorAll('.modal-card-count').forEach((el) => {
+        const target = parseInt((el as HTMLElement).dataset.count || '0', 10);
+        (el as HTMLElement).textContent = '0';
+        animateValue(el as HTMLElement, target, 800);
+      });
+
+      // Reset and animate sub-item counts
+      downloadsList.querySelectorAll('.modal-card-subitem-count').forEach((el) => {
+        const target = parseInt((el as HTMLElement).dataset.count || '0', 10);
+        (el as HTMLElement).textContent = '0';
+        animateValue(el as HTMLElement, target, 800);
+      });
+
+      // Reset and animate progress bars
+      downloadsList.querySelectorAll('.modal-card-bar').forEach((el) => {
+        (el as HTMLElement).style.width = '0%';
+      });
+      requestAnimationFrame(() => {
+        downloadsList.querySelectorAll('.modal-card-bar').forEach((el) => {
+          const pct = (el as HTMLElement).dataset.percentage || '0';
+          (el as HTMLElement).style.width = pct + '%';
+        });
+      });
+
+      // Reset card animations
+      downloadsList.querySelectorAll('.modal-card').forEach((el) => {
+        const card = el as HTMLElement;
+        card.style.animation = 'none';
+        card.offsetHeight; // force reflow
+        card.style.animation = '';
+      });
+    });
+
+    modalClose.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  }
 </script>
 
 <style>
